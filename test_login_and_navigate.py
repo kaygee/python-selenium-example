@@ -36,7 +36,7 @@ class SeleniumIntegrationTest(unittest.TestCase):
 
     def test_add_target_to_design(self):
         self.driver.get(TARGET_URL)
-        assert "Ion AmpliSeq™ Designer" in self.driver.title
+        assert "Designer" in self.driver.title
 
         import pdb; pdb.set_trace()
 
