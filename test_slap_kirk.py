@@ -15,12 +15,12 @@ WAIT_SPOCK_HAND_SPINNER = (By.CSS_SELECTOR, 'fa-spin')
 KIRK_IMAGE = (By.ID, 'animationImage')
 SCORE_BOX = (By.ID, 'scoreBox')
 
+BROWSER_WINDOW_WIDTH = 875
+BROWSER_WINDOW_HEIGHT = 600
 WAIT = 30
 SLAP_COUNT = 1000
-OFFSET_INCREMENT = 30
+OFFSET_INCREMENT = 400
 Y_OFFSET = 100
-BROWSER_WINDOW_HEIGHT = 600
-BROWSER_WINDOW_WIDTH = 875
 DRIVER = webdriver.Chrome()
 
 
@@ -60,8 +60,7 @@ def print_score():
     return split_score
 
 
-def initialize():
-    # Create the database and the table if they don't exist
+def setup_database():
     db.connect()
     db.create_tables([SlapKirk], safe=True)
 
@@ -121,16 +120,31 @@ def print_scores():
         print("Browser {}".format(entry.browser_driver))
         print("Width offset {}".format(entry.offset_increment))
         print("Slaps per second {}".format(entry.slaps_per_second))
-        print("\n")
+        print("")
+
+
+def fastest_slaps_per_second():
+    slaps_rate = SlapKirk.select().order_by(SlapKirk.slaps_per_second.desc()).get()
+    return slaps_rate
+
+
+def slowest_slaps_per_second():
+    slaps_rate = SlapKirk.select().order_by(SlapKirk.slaps_per_second.asc()).get()
+    return slaps_rate
+
+
+def print_stats():
+    print("Fastest slaps per second so far was {0.slaps_per_second} using {0.browser_driver}".format(
+            fastest_slaps_per_second()))
+    print("Slowest slaps per second so far was {0.slaps_per_second} using {0.browser_driver}".format(
+            slowest_slaps_per_second()))
 
 
 if __name__ == '__main__':
-    db.connect()
-    db.create_tables([SlapKirk], safe=True)
-    print_scores()
+    setup_database()
+    print_stats()
     setup_webdriver()
     slap_captain_kirk()
     split_score = print_score()
     teardown_webdriver()
     add_score()
-
