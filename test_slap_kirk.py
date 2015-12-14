@@ -17,6 +17,7 @@ Y_OFFSET = 100
 
 WAIT = 30
 SLAP_COUNT = 1000
+OFFSET_INCREMENT = 30
 
 
 class SlapKirkTest(unittest.TestCase):
@@ -45,12 +46,12 @@ class SlapKirkTest(unittest.TestCase):
 
     def slap_kirk_left(self):
         kirk_image = self.wait_for_kirk_image()
-        left_side_of_image = 0 + 10
+        left_side_of_image = 0 + OFFSET_INCREMENT
         self.move_to_offset_of_element(kirk_image, left_side_of_image)
 
     def slap_kirk_right(self):
         kirk_image = self.wait_for_kirk_image()
-        right_side_of_image = kirk_image.size['width'] - 10
+        right_side_of_image = kirk_image.size['width'] - OFFSET_INCREMENT
         self.move_to_offset_of_element(kirk_image, right_side_of_image)
 
     def move_to_offset_of_element(self, to_element, x_offset):
