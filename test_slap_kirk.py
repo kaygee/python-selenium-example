@@ -16,6 +16,7 @@ SCORE_BOX = '#scoreBox'
 Y_OFFSET = 100
 
 WAIT = 30
+SLAP_COUNT = 1000
 
 
 class SlapKirkTest(unittest.TestCase):
@@ -32,9 +33,9 @@ class SlapKirkTest(unittest.TestCase):
         self.driver.quit()
 
     def test_slap_kirk(self):
-        for num in range(0, 1000):
-            self.move_left()
-            self.move_right()
+        for num in range(0, SLAP_COUNT):
+            self.slap_kirk_left()
+            self.slap_kirk_right()
         self.print_score()
 
     def print_score(self):
@@ -42,12 +43,12 @@ class SlapKirkTest(unittest.TestCase):
         # Slap Count: 39 SPS: 0.0
         print(score.text)
 
-    def move_left(self):
+    def slap_kirk_left(self):
         kirk_image = self.wait_for_kirk_image()
         left_side_of_image = 0 + 10
         self.move_to_offset_of_element(kirk_image, left_side_of_image)
 
-    def move_right(self):
+    def slap_kirk_right(self):
         kirk_image = self.wait_for_kirk_image()
         right_side_of_image = kirk_image.size['width'] - 10
         self.move_to_offset_of_element(kirk_image, right_side_of_image)
