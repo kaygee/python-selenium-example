@@ -30,14 +30,13 @@ class SeleniumIntegrationTest(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
+        self.driver.get(TARGET_URL)
+        assert "Designer" in self.driver.title
 
     def tearDown(self):
         self.driver.quit()
 
     def test_add_target_to_design(self):
-        self.driver.get(TARGET_URL)
-        assert "Designer" in self.driver.title
-
         import pdb; pdb.set_trace()
 
         sign_in_button = self.driver.find_element_by_css_selector(SIGN_IN_BUTTON)
