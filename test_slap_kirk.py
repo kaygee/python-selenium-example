@@ -109,20 +109,6 @@ def add_score():
     )
 
 
-def print_scores():
-    entries = SlapKirk.select().order_by(SlapKirk.timestamp.desc())
-    print("Previous results slapping Captain Kirk!")
-    for entry in entries:
-        timestamp = entry.timestamp.strftime('%A %B %d, %Y %I:%M%p')
-        print(timestamp)
-        print('=' * len(timestamp))
-        print("Slap count {}".format(entry.slap_count))
-        print("Browser {}".format(entry.browser_driver))
-        print("Width offset {}".format(entry.offset_increment))
-        print("Slaps per second {}".format(entry.slaps_per_second))
-        print("")
-
-
 def fastest_slaps_per_second():
     slaps_rate = SlapKirk.select().order_by(SlapKirk.slaps_per_second.desc()).get()
     return slaps_rate
