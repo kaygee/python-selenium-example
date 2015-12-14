@@ -7,28 +7,28 @@ from selenium.common.exceptions import MoveTargetOutOfBoundsException
 import unittest
 
 TARGET_URL = 'http://www.slapkirk.com/play'
-WAIT_SPOCK_HAND = 'fa-hand-spock-o'
-WAIT_SPOCK_HAND_SPINNER = 'fa-spin'
-ANIMATION_IMAGE = 'animationImage'
-ANIMATION_FRAME = 'animationFrame'
-ANIMATION_ALERT_FRAME = 'animationAlertFrame'
-SCORE_BOX = 'scoreBox'
+WAIT_SPOCK_HAND = (By.CSS_SELECTOR, 'fa-hand-spock-o')
+WAIT_SPOCK_HAND_SPINNER = (By.CSS_SELECTOR, 'fa-spin')
+ANIMATION_IMAGE = (By.ID, 'animationImage')
+SCORE_BOX = (By.ID, 'scoreBox')
 Y_OFFSET = 100
 
 WAIT = 30
 SLAP_COUNT = 1000
 OFFSET_INCREMENT = 30
+BROWSER_WINDOW_HEIGHT = 600
+BROWSER_WINDOW_WIDTH = 875
 
 
 class SlapKirkTest(unittest.TestCase):
 
     def setUp(self):
-        # self.driver = webdriver.Firefox()
         self.driver = webdriver.Chrome()
+        self.driver.set_window_size(BROWSER_WINDOW_WIDTH, BROWSER_WINDOW_HEIGHT)
         self.driver.get(TARGET_URL)
-        self.wait_for_something(EC.invisibility_of_element_located((By.CSS_SELECTOR, WAIT_SPOCK_HAND)))
-        self.wait_for_something(EC.invisibility_of_element_located((By.CSS_SELECTOR, WAIT_SPOCK_HAND_SPINNER)))
-        self.wait_for_something(EC.presence_of_element_located((By.ID, ANIMATION_IMAGE)))
+        self.wait_for_something(EC.invisibility_of_element_located(WAIT_SPOCK_HAND))
+        self.wait_for_something(EC.invisibility_of_element_located(WAIT_SPOCK_HAND_SPINNER))
+        self.wait_for_something(EC.presence_of_element_located(ANIMATION_IMAGE))
 
     def tearDown(self):
         self.driver.quit()
@@ -40,8 +40,7 @@ class SlapKirkTest(unittest.TestCase):
         self.print_score()
 
     def print_score(self):
-        score = self.wait_for_something(EC.visibility_of_element_located((By.ID, SCORE_BOX)))
-        # Slap Count: 39 SPS: 0.0
+        score = self.wait_for_something(EC.visibility_of_element_located(SCORE_BOX))
         print(score.text)
 
     def slap_kirk_left(self):
@@ -61,8 +60,7 @@ class SlapKirkTest(unittest.TestCase):
             print("Tried to move to offset but couldn't!")
 
     def wait_for_kirk_image(self):
-        self.wait_for_something(EC.presence_of_element_located((By.ID, ANIMATION_IMAGE)))
-        kirk_image = self.driver.find_element_by_id(ANIMATION_IMAGE)
+        kirk_image = self.wait_for_something(EC.presence_of_element_located(ANIMATION_IMAGE))
         return kirk_image
 
     def wait_for_something(self, expected_condition):
