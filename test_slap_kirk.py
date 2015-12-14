@@ -9,10 +9,10 @@ import unittest
 TARGET_URL = 'http://www.slapkirk.com/play'
 WAIT_SPOCK_HAND = 'fa-hand-spock-o'
 WAIT_SPOCK_HAND_SPINNER = 'fa-spin'
-ANIMATION_IMAGE = '#animationImage'
-ANIMATION_FRAME = '#animationFrame'
-ANIMATION_ALERT_FRAME = '#animationAlertFrame'
-SCORE_BOX = '#scoreBox'
+ANIMATION_IMAGE = 'animationImage'
+ANIMATION_FRAME = 'animationFrame'
+ANIMATION_ALERT_FRAME = 'animationAlertFrame'
+SCORE_BOX = 'scoreBox'
 Y_OFFSET = 100
 
 WAIT = 30
@@ -27,7 +27,7 @@ class SlapKirkTest(unittest.TestCase):
         self.driver.get(TARGET_URL)
         self.wait_for_something(EC.invisibility_of_element_located((By.CSS_SELECTOR, WAIT_SPOCK_HAND)))
         self.wait_for_something(EC.invisibility_of_element_located((By.CSS_SELECTOR, WAIT_SPOCK_HAND_SPINNER)))
-        self.wait_for_something(EC.presence_of_element_located((By.CSS_SELECTOR, ANIMATION_IMAGE)))
+        self.wait_for_something(EC.presence_of_element_located((By.ID, ANIMATION_IMAGE)))
 
     def tearDown(self):
         self.driver.quit()
@@ -39,7 +39,7 @@ class SlapKirkTest(unittest.TestCase):
         self.print_score()
 
     def print_score(self):
-        score = self.wait_for_something(EC.visibility_of_element_located((By.CSS_SELECTOR, SCORE_BOX)))
+        score = self.wait_for_something(EC.visibility_of_element_located((By.ID, SCORE_BOX)))
         # Slap Count: 39 SPS: 0.0
         print(score.text)
 
@@ -60,8 +60,8 @@ class SlapKirkTest(unittest.TestCase):
             print("Tried to move to offset but couldn't!")
 
     def wait_for_kirk_image(self):
-        self.wait_for_something(EC.presence_of_element_located((By.CSS_SELECTOR, ANIMATION_IMAGE)))
-        kirk_image = self.driver.find_element_by_css_selector(ANIMATION_IMAGE)
+        self.wait_for_something(EC.presence_of_element_located((By.ID, ANIMATION_IMAGE)))
+        kirk_image = self.driver.find_element_by_id(ANIMATION_IMAGE)
         return kirk_image
 
     def wait_for_something(self, expected_condition):
